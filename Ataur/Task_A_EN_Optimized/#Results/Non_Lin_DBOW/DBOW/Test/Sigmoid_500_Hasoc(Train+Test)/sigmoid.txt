@@ -1,0 +1,77 @@
+##Model Description:	Document Embeddings on Hasoc (Train + Test)
+			Trained on Hasoc EN Training
+			Evaluation on Hasoc Test set
+
+Model Parameters:
+	Doc2Vec = DBOW (500 dim)
+	Classifier = non-linear SVM (Sigmoid, Gamma='scale')
+
+Additional Features:
+	Stopword.
+	BPE
+
+------------------------------------------------------------------------------
+
+
+
+Using the default Training/Test file from the data folder...
+
+Initializing English Model For The First Time...
+processing the training set...
+Documents in Only Training folder
+['data/train/hasoc_en_train_A.tsv']
+Documents in Augmented Training folder
+[]
+
+Distribution of classes in Training Set:
+['NOT', 'HOF']
+[3591, 2261]
+
+
+Distribution of classes in Test Set:
+['NOT', 'HOF']
+[865, 288]
+
+
+Using existing English Doc2Vec Model
+Running Test From The Doc2Vec Class...
+
+Training the SVM Classifier...!
+
+########### Non-Linear SVM with Sigmoid Kernel (Gamma = 0.3) ###########
+Accuracy = 0.6444058976582827
+F1-score(macro) = 0.5834713743955564
+              precision    recall  f1-score   support
+
+         HOF      0.356     0.524     0.424       288
+         NOT      0.812     0.684     0.743       865
+
+    accuracy                          0.644      1153
+   macro avg      0.584     0.604     0.583      1153
+weighted avg      0.698     0.644     0.663      1153
+
+Confusion Matrix (class):
+['HOF' 'NOT']
+[[151 137]
+ [273 592]]
+
+Normalized confusion matrix (Accuracy)
+['HOF' 'NOT']
+[[0.52430556 0.47569444]
+ [0.31560694 0.68439306]]
+
+5-fold Cross Validation on Training + Augmented Data
+
+5-fold Cross Validation (Accuracy):
+[0.82423208 0.81880342 0.77350427 0.79316239 0.77350427]
+
+Accuracy (Mean - Cross Validation): 0.796641 (+/- 0.04)
+
+5 -fold Cross Validation (f1-macro):
+ [0.81242872 0.80493191 0.7543129  0.77231936 0.76086334]
+
+F1-macro (Mean - Cross Validation): 0.780971 (+/- 0.05)
+
+Testing Time:  205.95669174194336
+
+Process finished with exit code 0

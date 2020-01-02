@@ -1,0 +1,4 @@
+Non-Linear SVM with DBOW -- sigmoid (gamma = 'scale')
+
+Accuracy = 0.6548135299219427
+F1-score(macro) = 0.6094386191870361

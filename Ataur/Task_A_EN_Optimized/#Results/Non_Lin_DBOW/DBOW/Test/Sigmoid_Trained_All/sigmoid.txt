@@ -1,0 +1,63 @@
+##Model Description:	Document Embeddings on Hasoc (Train + Dev + Test) + Balanced_All
+			Trained on Hasoc (Train + Dev + Test) + Balanced_All
+			Evaluation on Hasoc Test set
+
+Model Parameters:
+	Doc2Vec = DBOW (500 dim)
+	Classifier = non-linear SVM (Sigmoid, Gamma='scale')
+
+Additional Features:
+	Stopword.
+	BPE
+
+------------------------------------------------------------------------------
+
+
+
+
+Using the default Training/Test file from the data folder...
+
+Initializing English Model For The First Time...
+processing the training set...
+Documents in Only Training folder
+['data/train/hasoc_en_dev_A.tsv', 'data/train/hasoc_en_train_A.tsv']
+Documents in Augmented Training folder
+[]
+
+Distribution of classes in Training Set:
+['NOT', 'HOF']
+[3799, 2558]
+
+
+Distribution of classes in Test Set:
+['NOT', 'HOF']
+[865, 288]
+
+
+Training the SVM Classifier...!
+
+########### Non-Linear SVM with Sigmoid Kernel (Gamma = 0.3) ###########
+Accuracy = 0.6548135299219427
+F1-score(macro) = 0.6094386191870361
+              precision    recall  f1-score   support
+
+         HOF      0.383     0.628     0.476       288
+         NOT      0.843     0.664     0.743       865
+
+    accuracy                          0.655      1153
+   macro avg      0.613     0.646     0.609      1153
+weighted avg      0.728     0.655     0.676      1153
+
+Confusion Matrix (class):
+['HOF' 'NOT']
+[[181 107]
+ [291 574]]
+
+Normalized confusion matrix (Accuracy)
+['HOF' 'NOT']
+[[0.62847222 0.37152778]
+ [0.33641618 0.66358382]]
+
+Testing Time:  4.958154916763306
+
+Process finished with exit code 0

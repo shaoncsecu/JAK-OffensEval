@@ -1,0 +1,3 @@
+Training the SVM Classifier...!
+Testing accuracy 0.6217821782178218
+Testing F1 score: 0.62175844774106

@@ -1,0 +1,126 @@
+Using the default Training/Test file from the data folder...
+
+Initializing English Model For The First Time...
+processing the balanced training set...
+Documents in Only Training folder
+['data/train/hasoc_en_train_A.tsv']
+Documents in Augmented Training folder
+['data/augment/Trac_en.tsv']
+
+
+Distribution of classes in Training Set:
+['NOT', 'HOF']
+[10988, 10988]
+
+
+Distribution of classes in Test Set:
+['NOT', 'HOF']
+[208, 297]
+
+
+Using existing English Doc2Vec Model
+
+##### Output of Binary(HOF/NOT) + Non-Linear SVM + Doc2Vec 
+ For different values of Gamma (0.1-10.0) [C= default = 1.0] #####
+Gamma= 0.1    Accuracy= 0.6376237623762376      F1(macro)= 0.6309319850959063
+Gamma= 0.2    Accuracy= 0.5841584158415841      F1(macro)= 0.5726134055517942
+
+Gamma= 0.3    Accuracy= 0.6514851485148515      F1(macro)= 0.6418093303672181	(Highest)
+
+Gamma= 0.4    Accuracy= 0.6316831683168317      F1(macro)= 0.6129853648889182
+Gamma= 0.5    Accuracy= 0.6237623762376238      F1(macro)= 0.5724153297682709
+Gamma= 0.6    Accuracy= 0.6118811881188119      F1(macro)= 0.5219835413205578
+Gamma= 0.7    Accuracy= 0.592079207920792      F1(macro)= 0.4553859362566487
+Gamma= 0.8    Accuracy= 0.5881188118811881      F1(macro)= 0.42495510883370563
+Gamma= 0.9    Accuracy= 0.592079207920792      F1(macro)= 0.4201226309921962
+Gamma= 1.0    Accuracy= 0.592079207920792      F1(macro)= 0.409135314431116
+Gamma= 1.1    Accuracy= 0.592079207920792      F1(macro)= 0.40532537613755887
+Gamma= 1.2    Accuracy= 0.592079207920792      F1(macro)= 0.40532537613755887
+Gamma= 1.3    Accuracy= 0.5861386138613861      F1(macro)= 0.39860741534236277
+Gamma= 1.4    Accuracy= 0.5841584158415841      F1(macro)= 0.39377829606256004
+Gamma= 1.5    Accuracy= 0.5841584158415841      F1(macro)= 0.39377829606256004
+Gamma= 1.6    Accuracy= 0.5821782178217821      F1(macro)= 0.3928524623791318
+Gamma= 1.7    Accuracy= 0.5841584158415841      F1(macro)= 0.397662213740458
+Gamma= 1.8    Accuracy= 0.5841584158415841      F1(macro)= 0.397662213740458
+Gamma= 1.9    Accuracy= 0.5841584158415841      F1(macro)= 0.397662213740458
+Gamma= 2.0    Accuracy= 0.5841584158415841      F1(macro)= 0.397662213740458
+Gamma= 2.1    Accuracy= 0.5841584158415841      F1(macro)= 0.397662213740458
+Gamma= 2.2    Accuracy= 0.5841584158415841      F1(macro)= 0.397662213740458
+Gamma= 2.3    Accuracy= 0.5841584158415841      F1(macro)= 0.397662213740458
+Gamma= 2.4    Accuracy= 0.5841584158415841      F1(macro)= 0.397662213740458
+Gamma= 2.5    Accuracy= 0.5841584158415841      F1(macro)= 0.397662213740458
+Gamma= 2.6    Accuracy= 0.5841584158415841      F1(macro)= 0.397662213740458
+Gamma= 2.7    Accuracy= 0.5841584158415841      F1(macro)= 0.397662213740458
+Gamma= 2.8    Accuracy= 0.5841584158415841      F1(macro)= 0.397662213740458
+Gamma= 2.9    Accuracy= 0.5841584158415841      F1(macro)= 0.397662213740458
+Gamma= 3.0    Accuracy= 0.5841584158415841      F1(macro)= 0.397662213740458
+Gamma= 3.1    Accuracy= 0.5841584158415841      F1(macro)= 0.397662213740458
+Gamma= 3.2    Accuracy= 0.5841584158415841      F1(macro)= 0.397662213740458
+Gamma= 3.3    Accuracy= 0.5841584158415841      F1(macro)= 0.397662213740458
+Gamma= 3.4    Accuracy= 0.5861386138613861      F1(macro)= 0.39860741534236277
+Gamma= 3.5    Accuracy= 0.5861386138613861      F1(macro)= 0.39860741534236277
+Gamma= 3.6    Accuracy= 0.5861386138613861      F1(macro)= 0.39860741534236277
+Gamma= 3.7    Accuracy= 0.5861386138613861      F1(macro)= 0.39860741534236277
+Gamma= 3.8    Accuracy= 0.5861386138613861      F1(macro)= 0.39860741534236277
+Gamma= 3.9    Accuracy= 0.5861386138613861      F1(macro)= 0.39860741534236277
+Gamma= 4.0    Accuracy= 0.5801980198019802      F1(macro)= 0.3840046029919448
+Gamma= 4.1    Accuracy= 0.5801980198019802      F1(macro)= 0.3840046029919448
+Gamma= 4.2    Accuracy= 0.5801980198019802      F1(macro)= 0.3840046029919448
+Gamma= 4.3    Accuracy= 0.5801980198019802      F1(macro)= 0.3840046029919448
+Gamma= 4.4    Accuracy= 0.5801980198019802      F1(macro)= 0.3840046029919448
+Gamma= 4.5    Accuracy= 0.5801980198019802      F1(macro)= 0.3840046029919448
+Gamma= 4.6    Accuracy= 0.5801980198019802      F1(macro)= 0.3840046029919448
+Gamma= 4.7    Accuracy= 0.5801980198019802      F1(macro)= 0.3840046029919448
+Gamma= 4.8    Accuracy= 0.5801980198019802      F1(macro)= 0.3840046029919448
+Gamma= 4.9    Accuracy= 0.5801980198019802      F1(macro)= 0.3840046029919448
+Gamma= 5.0    Accuracy= 0.5801980198019802      F1(macro)= 0.3840046029919448
+Gamma= 5.1    Accuracy= 0.5801980198019802      F1(macro)= 0.3840046029919448
+Gamma= 5.2    Accuracy= 0.5801980198019802      F1(macro)= 0.3840046029919448
+Gamma= 5.3    Accuracy= 0.5801980198019802      F1(macro)= 0.3840046029919448
+Gamma= 5.4    Accuracy= 0.5801980198019802      F1(macro)= 0.3840046029919448
+Gamma= 5.5    Accuracy= 0.5821782178217821      F1(macro)= 0.38488936609920965
+Gamma= 5.6    Accuracy= 0.5821782178217821      F1(macro)= 0.38488936609920965
+Gamma= 5.7    Accuracy= 0.5821782178217821      F1(macro)= 0.38488936609920965
+Gamma= 5.8    Accuracy= 0.5801980198019802      F1(macro)= 0.3799230840515244
+Gamma= 5.9    Accuracy= 0.5821782178217821      F1(macro)= 0.3807857927371412
+Gamma= 6.0    Accuracy= 0.5821782178217821      F1(macro)= 0.3807857927371412
+Gamma= 6.1    Accuracy= 0.5821782178217821      F1(macro)= 0.3807857927371412
+Gamma= 6.2    Accuracy= 0.5821782178217821      F1(macro)= 0.3807857927371412
+Gamma= 6.3    Accuracy= 0.5821782178217821      F1(macro)= 0.3807857927371412
+Gamma= 6.4    Accuracy= 0.5821782178217821      F1(macro)= 0.3807857927371412
+Gamma= 6.5    Accuracy= 0.5821782178217821      F1(macro)= 0.3807857927371412
+Gamma= 6.6    Accuracy= 0.5821782178217821      F1(macro)= 0.3807857927371412
+Gamma= 6.7    Accuracy= 0.5821782178217821      F1(macro)= 0.3807857927371412
+Gamma= 6.8    Accuracy= 0.5821782178217821      F1(macro)= 0.3807857927371412
+Gamma= 6.9    Accuracy= 0.5821782178217821      F1(macro)= 0.3807857927371412
+Gamma= 7.0    Accuracy= 0.5821782178217821      F1(macro)= 0.3807857927371412
+Gamma= 7.1    Accuracy= 0.5821782178217821      F1(macro)= 0.3807857927371412
+Gamma= 7.2    Accuracy= 0.5821782178217821      F1(macro)= 0.3807857927371412
+Gamma= 7.3    Accuracy= 0.5782178217821782      F1(macro)= 0.379058933550387
+Gamma= 7.4    Accuracy= 0.5782178217821782      F1(macro)= 0.379058933550387
+Gamma= 7.5    Accuracy= 0.5801980198019802      F1(macro)= 0.3840046029919448
+Gamma= 7.6    Accuracy= 0.5782178217821782      F1(macro)= 0.379058933550387
+Gamma= 7.7    Accuracy= 0.5801980198019802      F1(macro)= 0.3840046029919448
+Gamma= 7.8    Accuracy= 0.5762376237623762      F1(macro)= 0.38223121598756116
+Gamma= 7.9    Accuracy= 0.5762376237623762      F1(macro)= 0.38223121598756116
+Gamma= 8.0    Accuracy= 0.5722772277227722      F1(macro)= 0.3764576759500617
+Gamma= 8.1    Accuracy= 0.5722772277227722      F1(macro)= 0.3764576759500617
+Gamma= 8.2    Accuracy= 0.5702970297029702      F1(macro)= 0.37558760348943876
+Gamma= 8.3    Accuracy= 0.5742574257425742      F1(macro)= 0.3813425564526698
+Gamma= 8.4    Accuracy= 0.5742574257425742      F1(macro)= 0.3813425564526698
+Gamma= 8.5    Accuracy= 0.5742574257425742      F1(macro)= 0.3813425564526698
+Gamma= 8.6    Accuracy= 0.5702970297029702      F1(macro)= 0.3795612172682236
+Gamma= 8.7    Accuracy= 0.5702970297029702      F1(macro)= 0.3795612172682236
+Gamma= 8.8    Accuracy= 0.5722772277227722      F1(macro)= 0.38436879176449334
+Gamma= 8.9    Accuracy= 0.5722772277227722      F1(macro)= 0.38820837259388885
+Gamma= 9.0    Accuracy= 0.5722772277227722      F1(macro)= 0.38820837259388885
+Gamma= 9.1    Accuracy= 0.5683168316831683      F1(macro)= 0.38634336677814934
+Gamma= 9.2    Accuracy= 0.5663366336633663      F1(macro)= 0.38540919927312745
+Gamma= 9.3    Accuracy= 0.5623762376237624      F1(macro)= 0.3835374307477312
+Gamma= 9.4    Accuracy= 0.5663366336633663      F1(macro)= 0.39275223061084424
+Gamma= 9.5    Accuracy= 0.5663366336633663      F1(macro)= 0.3963187973864772
+Gamma= 9.6    Accuracy= 0.5643564356435643      F1(macro)= 0.3953280794182958
+Gamma= 9.7    Accuracy= 0.5683168316831683      F1(macro)= 0.40427489177489173
+Gamma= 9.8    Accuracy= 0.5683168316831683      F1(macro)= 0.4076596935261708
+Gamma= 9.9    Accuracy= 0.5702970297029702      F1(macro)= 0.4185269100768859
+Gamma= 10.0    Accuracy= 0.5702970297029702      F1(macro)= 0.42168146963675995

@@ -1,0 +1,56 @@
+Initializing English Model For The First Time...
+processing the balanced training set...
+Documents in Only Training folder
+['data/train/hasoc_en_train_A.tsv']
+Documents in Augmented Training folder
+[]
+
+Distribution of classes in Training Set:
+['HOF', 'NOT']
+[2261, 3591]
+
+
+Distribution of classes in Test Set:
+['HOF', 'NOT']
+[297, 208]
+
+
+Running the Best Model - Linear SVM:
+
+Training Time:  74.33710026741028
+
+########### Binary(HOF/NOT) + Linear SVM + TfidfVectorizer ###########
+Accuracy = 0.5702970297029702
+F1-score(macro) = 0.5689719596760554
+              precision    recall  f1-score   support
+
+         HOF      0.722     0.438     0.545       297
+         NOT      0.486     0.760     0.593       208
+
+    accuracy                          0.570       505
+   macro avg      0.604     0.599     0.569       505
+weighted avg      0.625     0.570     0.565       505
+
+Confusion Matrix (class):
+['HOF' 'NOT']
+[[130 167]
+ [ 50 158]]
+
+Normalized confusion matrix (Accuracy)
+['HOF' 'NOT']
+[[0.43771044 0.56228956]
+ [0.24038462 0.75961538]]
+
+5-fold Cross Validation (Accuracy):
+[0.68003413 0.67094017 0.61880342 0.64786325 0.56068376]
+
+Accuracy (Mean - Cross Validation): 0.635665 (+/- 0.09)
+
+5 -fold Cross Validation (f1-macro):
+ [0.66196026 0.64860068 0.58133825 0.61782773 0.54518228]
+
+F1-macro (Mean - Cross Validation): 0.610982 (+/- 0.09)
+
+Testing Time:  522.1594579219818
+
+Process finished with exit code 0

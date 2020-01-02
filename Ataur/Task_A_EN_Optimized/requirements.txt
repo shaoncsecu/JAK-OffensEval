@@ -1,0 +1,6 @@
+nltk==3.4.4
+scikit-learn==0.21.3
+scikit-plot==0.3.7
+spacy==2.1.7
+BPEmb==0.3.0
+joblib==0.13.2

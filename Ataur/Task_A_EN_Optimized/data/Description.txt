@@ -1,0 +1,14 @@
+# English Training Set:
+
+	1) hasco_en_train_A.tsv = Hasoc Training set for English Task A (size = 5852)	
+	
+	2) Trac_en.tsv = Trac_1 dataset for English --> Training + Development + Test (size = 17173)
+
+	3) hasoc_en_dev_A.tsv = Hasoc Development set for English Task A (size = 505)
+
+
+===> A balanced set is combined during the runtime of the program which yelds:
+
+	Distribution of classes in Training Set:
+	['HOF', 'NOT']
+	[11196, 11196]

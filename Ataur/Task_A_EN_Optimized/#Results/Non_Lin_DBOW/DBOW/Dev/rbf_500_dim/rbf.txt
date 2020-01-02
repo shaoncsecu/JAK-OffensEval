@@ -1,0 +1,22 @@
+Initializing English Model For The First Time...
+processing the balanced training set...
+Documents in Only Training folder
+['data/train/hasoc_en_train_A.tsv']
+Documents in Augmented Training folder
+['data/augment/Trac_en.tsv']
+
+Distribution of classes in Training Set:
+['NOT', 'HOF']
+[10988, 10988]
+
+
+Distribution of classes in Test Set:
+['NOT', 'HOF']
+[208, 297]
+
+
+Using existing English Doc2Vec Model
+
+Training the SVM Classifier...!
+Testing accuracy 0.6039603960396039
+Testing F1 score: 0.6024623716858744

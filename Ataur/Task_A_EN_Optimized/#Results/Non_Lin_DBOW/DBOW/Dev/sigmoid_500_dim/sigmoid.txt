@@ -1,0 +1,60 @@
+##Model Description:	Trained on Trac + Hasoc EN Training
+			Evaluation on Dev set
+
+Model Parameters:
+	Doc2Vec = DBOW (500 dim)
+	Classifier = non-linear SVM (Sigmoid, Gamma='scale')
+
+Additional Features:
+	Stopword.
+	BPE
+
+------------------------------------------------------------------------------
+
+Initializing English Model For The First Time...
+processing the training set...
+Documents in Only Training folder
+['data/train/hasoc_en_train_A.tsv']
+Documents in Augmented Training folder
+['data/augment/Trac_en.tsv']
+
+Distribution of classes in Training Set:
+['NOT', 'HOF']
+[10988, 10988]
+
+
+Distribution of classes in Test Set:
+['NOT', 'HOF']
+[208, 297]
+
+
+Using existing English Doc2Vec Model
+Running Test From The Doc2Vec Class...
+
+Training the SVM Classifier...!
+
+########### Non-Linear SVM with Sigmoid Kernel (Gamma = Scale) ###########
+Accuracy = 0.6534653465346535
+F1-score(macro) = 0.6454348863987418
+              precision    recall  f1-score   support
+
+         HOF      0.715     0.684     0.699       297
+         NOT      0.575     0.611     0.592       208
+
+    accuracy                          0.653       505
+   macro avg      0.645     0.647     0.645       505
+weighted avg      0.657     0.653     0.655       505
+
+Confusion Matrix (class):
+['HOF' 'NOT']
+[[203  94]
+ [ 81 127]]
+
+Normalized confusion matrix (Accuracy)
+['HOF' 'NOT']
+[[0.68350168 0.31649832]
+ [0.38942308 0.61057692]]
+
+Testing Time:  5.734748363494873
+
+Process finished with exit code 0

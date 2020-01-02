@@ -1,0 +1,8 @@
+1) Put .tsv files in the training folder if you want to use them in the Training set.
+
+2) Put .tsv file in the dev folder (with gold lables) if you wish to evaluate your model:
+	--> change default_dev_file = '...' location in the EN_Train.py file in order to do this change
+
+3) Put .tsv files in the augment folder if you wish to only use these as the Embeddings*.
+
+*** For Embeddings The dafault code considers everything inside Training/Dev and Augment folder.
