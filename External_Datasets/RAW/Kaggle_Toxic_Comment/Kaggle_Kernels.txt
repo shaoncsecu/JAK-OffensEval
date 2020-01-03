@@ -1,0 +1,10 @@
+https://www.kaggle.com/sashr07/kaggle-titanic-tutorial
+
+https://www.kaggle.com/sbongo/for-beginners-tackling-toxic-using-keras
+
+https://www.kaggle.com/sbongo/do-pretrained-embeddings-give-you-the-extra-edge
+
+https://www.kaggle.com/sbongo/tackling-toxic-problem-with-char-gram-cnn-lstm
+
+https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/discussion/52557#299802
+
