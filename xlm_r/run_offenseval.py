@@ -27,8 +27,14 @@ import numpy as np
 import torch
 from torch.utils.data import DataLoader, RandomSampler, SequentialSampler, TensorDataset
 from torch.utils.data.distributed import DistributedSampler
+from torch.nn import BCEWithLogitsLoss, BCELoss, Sigmoid, CrossEntropyLoss
 from tqdm import tqdm, trange
-from sklearn.metrics import f1_score
+from sklearn.metrics import f1_score, precision_score, recall_score
+
+
+from transformers import BertPreTrainedModel
+from transformers.modeling_roberta import ROBERTA_PRETRAINED_MODEL_ARCHIVE_MAP, RobertaModel, RobertaClassificationHead,\
+    ROBERTA_INPUTS_DOCSTRING, ROBERTA_START_DOCSTRING
 
 from transformers import (
     WEIGHTS_NAME,
@@ -45,13 +51,13 @@ from transformers import (
     # FlaubertConfig,
     # FlaubertForSequenceClassification,
     # FlaubertTokenizer,
-    # RobertaConfig,
+    RobertaConfig,
     # RobertaForSequenceClassification,
     # RobertaTokenizer,
     XLMConfig,
     XLMForSequenceClassification,
     XLMRobertaConfig,
-    XLMRobertaForSequenceClassification,
+    # XLMRobertaForSequenceClassification,
     XLMRobertaTokenizer,
     # XLMTokenizer,
     # XLNetConfig,
@@ -61,6 +67,7 @@ from transformers import (
 )
 
 from utils_offenseval import *
+from file_utils import add_start_docstrings, add_start_docstrings_to_callable
 
 
 
@@ -89,6 +96,120 @@ ALL_MODELS = sum(
     (),
 )
 
+
+XLM_ROBERTA_PRETRAINED_MODEL_ARCHIVE_MAP = {
+    "xlm-roberta-base": "https://s3.amazonaws.com/models.huggingface.co/bert/xlm-roberta-base-pytorch_model.bin",
+    "xlm-roberta-large": "https://s3.amazonaws.com/models.huggingface.co/bert/xlm-roberta-large-pytorch_model.bin",
+    "xlm-roberta-large-finetuned-conll02-dutch": "https://s3.amazonaws.com/models.huggingface.co/bert/xlm-roberta-large-finetuned-conll02-dutch-pytorch_model.bin",
+    "xlm-roberta-large-finetuned-conll02-spanish": "https://s3.amazonaws.com/models.huggingface.co/bert/xlm-roberta-large-finetuned-conll02-spanish-pytorch_model.bin",
+    "xlm-roberta-large-finetuned-conll03-english": "https://s3.amazonaws.com/models.huggingface.co/bert/xlm-roberta-large-finetuned-conll03-english-pytorch_model.bin",
+    "xlm-roberta-large-finetuned-conll03-german": "https://s3.amazonaws.com/models.huggingface.co/bert/xlm-roberta-large-finetuned-conll03-german-pytorch_model.bin",
+}
+
+@add_start_docstrings(
+    """RoBERTa Model transformer with a sequence classification/regression head on top (a linear layer
+    on top of the pooled output) e.g. for GLUE tasks. """,
+    ROBERTA_START_DOCSTRING,
+)
+
+class RobertaForSequenceClassification(BertPreTrainedModel):
+    config_class = RobertaConfig
+    pretrained_model_archive_map = ROBERTA_PRETRAINED_MODEL_ARCHIVE_MAP
+    base_model_prefix = "roberta"
+
+    def __init__(self, config):
+        super().__init__(config)
+        self.num_labels = config.num_labels
+
+        self.roberta = RobertaModel(config)
+        self.classifier = RobertaClassificationHead(config)
+
+    @add_start_docstrings_to_callable(ROBERTA_INPUTS_DOCSTRING)
+    def forward(
+        self,
+        input_ids=None,
+        attention_mask=None,
+        token_type_ids=None,
+        position_ids=None,
+        head_mask=None,
+        inputs_embeds=None,
+        labels=None,
+    ):
+        r"""
+        labels (:obj:`torch.LongTensor` of shape :obj:`(batch_size,)`, `optional`, defaults to :obj:`None`):
+            Labels for computing the sequence classification/regression loss.
+            Indices should be in :obj:`[0, ..., config.num_labels - 1]`.
+            If :obj:`config.num_labels == 1` a regression loss is computed (Mean-Square loss),
+            If :obj:`config.num_labels > 1` a classification loss is computed (Cross-Entropy).
+    Returns:
+        :obj:`tuple(torch.FloatTensor)` comprising various elements depending on the configuration (:class:`~transformers.RobertaConfig`) and inputs:
+        loss (:obj:`torch.FloatTensor` of shape :obj:`(1,)`, `optional`, returned when :obj:`label` is provided):
+            Classification (or regression if config.num_labels==1) loss.
+        logits (:obj:`torch.FloatTensor` of shape :obj:`(batch_size, config.num_labels)`):
+            Classification (or regression if config.num_labels==1) scores (before SoftMax).
+        hidden_states (:obj:`tuple(torch.FloatTensor)`, `optional`, returned when ``config.output_hidden_states=True``):
+            Tuple of :obj:`torch.FloatTensor` (one for the output of the embeddings + one for the output of each layer)
+            of shape :obj:`(batch_size, sequence_length, hidden_size)`.
+            Hidden-states of the model at the output of each layer plus the initial embedding outputs.
+        attentions (:obj:`tuple(torch.FloatTensor)`, `optional`, returned when ``config.output_attentions=True``):
+            Tuple of :obj:`torch.FloatTensor` (one for each layer) of shape
+            :obj:`(batch_size, num_heads, sequence_length, sequence_length)`.
+            Attentions weights after the attention softmax, used to compute the weighted average in the self-attention
+            heads.
+    Examples::
+        from transformers import RobertaTokenizer, RobertaForSequenceClassification
+        import torch
+        tokenizer = RobertaTokenizer.from_pretrained('roberta-base')
+        model = RobertaForSequenceClassification.from_pretrained('roberta-base')
+        input_ids = torch.tensor(tokenizer.encode("Hello, my dog is cute", add_special_tokens=True)).unsqueeze(0)  # Batch size 1
+        labels = torch.tensor([1]).unsqueeze(0)  # Batch size 1
+        outputs = model(input_ids, labels=labels)
+        loss, logits = outputs[:2]
+        """
+        outputs = self.roberta(
+            input_ids,
+            attention_mask=attention_mask,
+            token_type_ids=token_type_ids,
+            position_ids=position_ids,
+            head_mask=head_mask,
+            inputs_embeds=inputs_embeds,
+        )
+        sequence_output = outputs[0]
+        logits = self.classifier(sequence_output)
+
+        outputs = (logits,) + outputs[2:]
+        if labels is not None:
+
+            # loss_fct = BCEWithLogitsLoss()
+            # loss = loss_fct(logits.squeeze(-1), labels.float())
+            # loss = loss_fct(logits.view(-1, self.num_labels), labels.view(-1))
+            # loss = loss_fct(logits.view(-1, self.num_labels), labels.view(-1, self.num_labels))
+
+            weights = [0.13946420514919405, 1.]
+            # weights = [0.1611683382396301, 1.]
+            class_weights = torch.FloatTensor(weights).cuda()
+
+            loss_fct = CrossEntropyLoss(weight=class_weights)
+            loss = loss_fct(logits.view(-1, self.num_labels), labels.view(-1))
+
+
+            outputs = (loss,) + outputs
+
+
+
+
+        return outputs  # (loss), logits, (hidden_states), (attentions)
+
+
+class XLMRobertaForSequenceClassification(RobertaForSequenceClassification):
+    """
+    This class overrides :class:`~transformers.RobertaForSequenceClassification`. Please check the
+    superclass for the appropriate documentation alongside usage examples.
+    """
+
+    config_class = XLMRobertaConfig
+    pretrained_model_archive_map = XLM_ROBERTA_PRETRAINED_MODEL_ARCHIVE_MAP
+
 MODEL_CLASSES = {
     # "bert": (BertConfig, BertForSequenceClassification, BertTokenizer),
     # "xlnet": (XLNetConfig, XLNetForSequenceClassification, XLNetTokenizer),
@@ -99,7 +220,6 @@ MODEL_CLASSES = {
     "xlmroberta": (XLMRobertaConfig, XLMRobertaForSequenceClassification, XLMRobertaTokenizer),
     # "flaubert": (FlaubertConfig, FlaubertForSequenceClassification, FlaubertTokenizer),
 }
-
 
 def set_seed(args):
     random.seed(args.seed)
@@ -211,10 +331,6 @@ def train(args, train_dataset, model, tokenizer):
             model.train()
             batch = tuple(t.to(args.device) for t in batch)
             inputs = {"input_ids": batch[0], "attention_mask": batch[1], "labels": batch[3]}
-            if args.model_type != "distilbert":
-                inputs["token_type_ids"] = (
-                    batch[2] if args.model_type in ["bert", "xlnet", "albert"] else None
-                )  # XLM, DistilBERT, RoBERTa, and XLM-RoBERTa don't use segment_ids
             outputs = model(**inputs)
             loss = outputs[0]  # model outputs are always tuple in transformers (see doc)
 
@@ -396,6 +512,9 @@ def evaluate(args, model, tokenizer, prefix=""):
                       'attention_mask': batch[1],
                       'token_type_ids': batch[2] if args.model_type in ['bert', 'xlnet'] else None,  # XLM and RoBERTa don't use segment_ids
                       'labels':         batch[3]}
+
+            #             inputs = {"input_ids": batch[0], "attention_mask": batch[1], "labels": batch[3]}
+
             outputs = model(**inputs)
             tmp_eval_loss, logits = outputs[:2]
 
@@ -417,6 +536,9 @@ def evaluate(args, model, tokenizer, prefix=""):
     # dataset = TensorDataset(all_input_ids, all_attention_mask, all_token_type_ids, all_labels)
 
     preds = np.argmax(preds, axis=1)
+    # threshold = 0.5
+    # preds = Sigmoid(preds)
+    # preds = (preds > threshold).astype(int)
 
 
     result = acc_and_f1(preds, out_label_ids)
@@ -442,7 +564,90 @@ def evaluate(args, model, tokenizer, prefix=""):
                 line += 'OFF' + "\n"
             outfile.write(line)
 
+
     return results
+
+
+def predict(args, model, tokenizer, prefix=""):
+    # Loop to handle MNLI double evaluation (matched, mis-matched)
+
+    eval_output_dir = args.output_dir,
+
+    results = {}
+    eval_dataset = load_and_cache_examples(args, eval_task, tokenizer, test=True)
+
+    if not os.path.exists(eval_output_dir) and args.local_rank in [-1, 0]:
+        os.makedirs(eval_output_dir)
+
+    args.eval_batch_size = args.per_gpu_eval_batch_size * max(1, args.n_gpu)
+    # Note that DistributedSampler samples randomly
+    eval_sampler = SequentialSampler(eval_dataset) if args.local_rank == -1 else DistributedSampler(eval_dataset)
+    eval_dataloader = DataLoader(eval_dataset, sampler=eval_sampler, batch_size=args.eval_batch_size)
+
+    # Eval!
+    logger.info("***** Running Testing {} *****".format(prefix))
+    logger.info("  Num examples = %d", len(eval_dataset))
+    logger.info("  Batch size = %d", args.eval_batch_size)
+    eval_loss = 0.0
+    nb_eval_steps = 0
+    preds = None
+    ids = []
+    for batch in tqdm(eval_dataloader, desc="Evaluating"):
+        model.eval()
+        batch = tuple(t.to(args.device) for t in batch)
+
+        with torch.no_grad():
+            inputs = {'input_ids':      batch[0],
+                      'attention_mask': batch[1],
+                      'token_type_ids': batch[2] if args.model_type in ['bert', 'xlnet'] else None,  # XLM and RoBERTa don't use segment_ids
+                      'labels':         batch[3]}
+            outputs = model(**inputs)
+            # print(outputs)
+            tmp_eval_loss, logits = outputs[:2]
+
+
+
+            # eval_loss += tmp_eval_loss.mean().item()
+        nb_eval_steps += 1
+        if preds is None:
+            preds = logits.detach().cpu().numpy()
+        else:
+            preds = np.append(preds, logits.detach().cpu().numpy(), axis=0)
+        if len(ids) == 0:
+            ids.append(batch[4].detach().cpu().numpy())
+        else:
+            ids[0] = np.append(
+                ids[0], batch[4].detach().cpu().numpy(), axis=0)
+
+
+    # eval_loss = eval_loss / nb_eval_steps
+
+    preds = np.argmax(preds, axis=1)
+
+
+    preds = preds.tolist()
+    ids = ids[0]
+    id2preds = {val: preds[i] for i, val in enumerate(ids)}
+    preds = [id2preds[val] if val in id2preds else [] for i, val in enumerate(ids)]
+    with open(args.output_dir + '/' + args.language + 'test_preds_with_ids.tsv', 'w') as outfile:
+        for idx, doc_id in enumerate(ids):
+            line = str(doc_id) + "\t"
+            if preds[idx] == 0:
+                line += 'NOT' + "\n"
+            elif preds[idx] == 1:
+                line += 'OFF' + "\n"
+            outfile.write(line)
+    with open(args.output_dir + '/' + args.language + 'test_preds.tsv', 'w') as outfile:
+        for idx, doc_id in enumerate(ids):
+            line = ''
+            if preds[idx] == 0:
+                line += 'NOT' + "\n"
+            elif preds[idx] == 1:
+                line += 'OFF' + "\n"
+            outfile.write(line)
+
+    return preds
+
 
 def simple_accuracy(preds, labels):
     return (preds == labels).mean()
@@ -450,10 +655,14 @@ def simple_accuracy(preds, labels):
 def acc_and_f1(preds, labels):
     acc = simple_accuracy(preds, labels)
     f1 = f1_score(y_true=labels, y_pred=preds, average="macro")
+    precision = precision_score(y_true=labels, y_pred=preds)
+    recall = recall_score(y_true=labels, y_pred=preds)
     return {
         "acc": acc,
         "f1": f1,
         "acc_and_f1": (acc + f1) / 2,
+        "precision": precision,
+        "recall": recall,
     }
 
 
@@ -547,6 +756,15 @@ def main():
 
     # Other parameters
     parser.add_argument(
+        "--threshold",
+        default=0.5,
+        type=int,
+        help="Threshold at which to decide between 0 (NOT) and 1 (OFF)",
+    )
+    parser.add_argument(
+        "--language", default="", type=str, help="The language to evaluate on",
+    )
+    parser.add_argument(
         "--config_name", default="", type=str, help="Pretrained config name or path if not the same as model_name",
     )
     parser.add_argument(
@@ -570,6 +788,7 @@ def main():
     )
     parser.add_argument("--do_train", action="store_true", help="Whether to run training.")
     parser.add_argument("--do_eval", action="store_true", help="Whether to run eval on the dev set.")
+    parser.add_argument("--do_test", action='store_true', help="Whether to run testing.")
     parser.add_argument(
         "--evaluate_during_training", action="store_true", help="Run evaluation during training at each logging step.",
     )
@@ -773,6 +992,25 @@ def main():
             result = evaluate(args, model, tokenizer, prefix=prefix)
             result = dict((k + "_{}".format(global_step), v) for k, v in result.items())
             results.update(result)
+
+    # Make predictions on test set
+    results = {}
+    if args.do_test and args.local_rank in [-1, 0]:
+        tokenizer = tokenizer_class.from_pretrained(args.output_dir, do_lower_case=args.do_lower_case)
+        checkpoints = [args.output_dir]
+        if args.eval_all_checkpoints:
+            checkpoints = list(
+                os.path.dirname(c) for c in sorted(glob.glob(args.output_dir + "/**/" + WEIGHTS_NAME, recursive=True))
+            )
+            logging.getLogger("transformers.modeling_utils").setLevel(logging.WARN)  # Reduce logging
+        logger.info("Evaluate the following checkpoints: %s", checkpoints)
+        for checkpoint in checkpoints:
+            global_step = checkpoint.split("-")[-1] if len(checkpoints) > 1 else ""
+            prefix = checkpoint.split("/")[-1] if checkpoint.find("checkpoint") != -1 else ""
+
+            model = model_class.from_pretrained(checkpoint)
+            model.to(args.device)
+            predictions = predict(args, model, tokenizer, prefix=global_step)
 
     return results
 
