@@ -1,6 +1,0 @@
-lang	prec	recall	f1
-danish	0.50	0.50	0.50
-greek	0.80	0.79	0.79
-turkish 0.80	0.79	0.79
-arabic	0.84	0.84	0.84
-english	0.82	0.82	0.82
