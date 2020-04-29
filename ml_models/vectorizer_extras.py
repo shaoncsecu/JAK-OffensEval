@@ -1,6 +1,9 @@
 from sklearn.datasets.base import Bunch
-import numpy as np
 import string
+
+#Here, you can include additional feature functions such as punctuation ratio per tweet etc.
+#Make sure to call them in the tweet2features function!
+#They will be automatically included in the final vectorized data.
 
 def dummy(doc):
     """
